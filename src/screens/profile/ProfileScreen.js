@@ -10,10 +10,10 @@ const ProfileScreen = ({ navigation }) => {
 
   const { dispatch } = useContext(AppContext);
   const data = [
-    { id: 1, title: 'My Profile', value: null, isLink: true },
-    { id: 2, title: 'Help & Feedback', value: null, isLink: true },
-    { id: 3, title: 'Service Agreement', value: null, isLink: true },
-    { id: 4, title: 'Settings', value: null, isLink: true },
+    { id: '1', title: 'My Profile', value: null, isLink: true },
+    { id: '2', title: 'Help & Feedback', value: null, isLink: true },
+    { id: '3', title: 'Service Agreement', value: null, isLink: true },
+    { id: '4', title: 'Settings', value: null, isLink: true },
   ];
 
   const onLogout = () => dispatch({ type: 'LOGOUT' });
@@ -30,7 +30,7 @@ const ProfileScreen = ({ navigation }) => {
           <KeyValueList data={data} />
         </View>
 
-        <TouchableOpacity style={styles.logoutButton}>
+        <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
           <Text style={styles.logoutButtonText}>LOGOUT</Text>
         </TouchableOpacity>
       </View>

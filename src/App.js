@@ -10,16 +10,17 @@ import { ProfileStackScreen } from './screens/profile';
 import { AppContext, AppProvider } from './contexts/AppContext';
 
 import { initialState, reducer } from './reducers/index.js';
+import colors from './constants/colors';
 
 const tabOptions = {
   home: {
-    tabBarLabel: '新闻',
+    tabBarLabel: 'News',
     tabBarIcon: ({ color, size }) => (
       <MaterialCommunityIcons name="newspaper-variant-outline" color={color} size={size} />
     ),
   },
   profile: {
-    tabBarLabel: '我的',
+    tabBarLabel: 'Profile',
     tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="account-circle-outline" color={color} size={size} />,
   },
 };
@@ -31,7 +32,11 @@ const LoadingScreen = () => {
   return (
     <NavigationContainer>
       {state.auth.isLoggedIn ? (
-        <Tab.Navigator>
+        <Tab.Navigator
+          tabBarOptions={{
+            activeTintColor: colors.primary,
+          }}
+        >
           <Tab.Screen name="Home" component={HomeStackScreen} options={tabOptions.home} />
           <Tab.Screen name="Profile" component={ProfileStackScreen} options={tabOptions.profile} />
         </Tab.Navigator>
