@@ -3,20 +3,31 @@ import { StyleSheet, SafeAreaView, View, Image, TextInput, Text, TouchableOpacit
 import { AppContext } from '../../contexts/AppContext';
 import { useRequest } from '../../hooks';
 import { logo } from '../../assets';
+import apis from '../../constants/apis';
 
 const LoginScreen = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
 
-  const { request } = useRequest('http://hn.algolia.com/api/v1/search', {
+  const { dispatch } = useContext(AppContext);
+
+  const { request } = useRequest(apis.LOGIN, {
     manual: true,
-    params: { x: 'x' },
-    onSuccess: (data) => console.log('success', data),
+    mock: async () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({ token: 'dummy-token' });
+        }, 1000);
+      });
+    },
+    onSuccess: (data) => {
+      console.log('success', data);
+      const { token } = data;
+      dispatch({ type: 'LOGIN', payload: { token } });
+    },
     onError: (error) => console.log('error', error),
   });
-
-  const { dispatch } = useContext(AppContext);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -27,7 +38,6 @@ const LoginScreen = ({ navigation }) => {
 
   const onSubmit = () => {
     request();
-    // dispatch({ type: 'LOGIN', payload: { username, password } });
   };
 
   return (
@@ -59,7 +69,7 @@ const LoginScreen = ({ navigation }) => {
           />
         </View>
 
-        <TouchableOpacity style={styles.loginButton} onPress={onSubmit}>
+        <TouchableOpacity style={styles.loginButton} onPress={onSubmit} disabled={false} activeOpacity={0.8}>
           <Text style={styles.loginButtonText}>LOGIN</Text>
         </TouchableOpacity>
       </View>

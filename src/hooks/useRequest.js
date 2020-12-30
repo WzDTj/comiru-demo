@@ -32,6 +32,7 @@ const reducer = (state, action) => {
  * requestOptions:
  * manual
  * params
+ * mock
  * onSuccess
  * onError
  **/
@@ -49,7 +50,7 @@ const useRequest = (requestUrl, requestOptions) => {
     async (params) => {
       dispatch({ type: 'FETCH_INIT' });
 
-      const { method, onSuccess, onError } = options;
+      const { mock, method, onSuccess, onError } = options;
       const requestInit = {
         body: params === null ? null : JSON.stringify(params),
         headers: {
@@ -59,8 +60,13 @@ const useRequest = (requestUrl, requestOptions) => {
         mode: 'cors',
       };
 
-      await fetch(url, requestInit)
-        .then((response) => response.json())
+      const task = () => {
+        return new Promise((resolve, reject) =>
+          resolve(mock ? mock() : fetch(url, requestInit).then((response) => response.json())),
+        );
+      };
+
+      task()
         .then((data) => {
           dispatch({ type: 'FETCH_SUCCESS', payload: { data } });
           onSuccess(data);
