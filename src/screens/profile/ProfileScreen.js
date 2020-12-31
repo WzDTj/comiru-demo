@@ -12,7 +12,7 @@ const ProfileScreen = ({ navigation }) => {
   const data = [
     { id: '1', title: 'My Profile', value: null, isLink: true },
     { id: '2', title: 'Help & Feedback', value: null, isLink: true },
-    { id: '3', title: 'Service Agreement', value: null, isLink: true },
+    { id: '3', title: 'Service Agreement', value: null, isLink: true, onPress: () => navigation.push('Agreement') },
     { id: '4', title: 'Settings', value: null, isLink: true },
   ];
 
