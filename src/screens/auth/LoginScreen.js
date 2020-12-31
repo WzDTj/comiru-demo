@@ -1,3 +1,4 @@
+// TODO: login button: loading, disabled <31-12-20, Dantong Jin> //
 import React, { useState, useContext, useLayoutEffect } from 'react';
 import { StyleSheet, SafeAreaView, View, Image, TextInput, Text, TouchableOpacity } from 'react-native';
 import { AppContext } from '../../contexts/AppContext';

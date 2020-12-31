@@ -1,3 +1,4 @@
+// TODO: store token into localstrage <31-12-20, Dantong Jin> //
 export const initialState = {
   token: 'dummy-token',
   isLoggedIn: false,
