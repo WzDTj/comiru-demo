@@ -1,15 +1,13 @@
 // TODO: login button: loading, disabled <31-12-20, Dantong Jin> //
 import React, { useState, useContext, useLayoutEffect } from 'react';
-import { StyleSheet, SafeAreaView, View, Image, TextInput, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Image, TextInput, Text, TouchableOpacity, StatusBar } from 'react-native';
 import { AppContext } from '../../contexts/AppContext';
 import { useRequest } from '../../hooks';
 import { logo } from '../../assets';
 import apis from '../../constants/apis';
 
 const LoginScreen = ({ navigation }) => {
-  useLayoutEffect(() => {
-    navigation.setOptions({ headerShown: false });
-  }, [navigation]);
+  useLayoutEffect(() => navigation.setOptions({ headerShown: false }), [navigation]);
 
   const { dispatch } = useContext(AppContext);
 
@@ -37,12 +35,15 @@ const LoginScreen = ({ navigation }) => {
 
   const onChangePassword = (text) => setPassword(text);
 
-  const onSubmit = () => {
+  const onLogin = () => {
     request();
   };
 
+  const onScan = () => navigation.push('Scan');
+
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" animated={true} />
       <View style={styles.contentContainer}>
         <View style={styles.logoContainer}>
           <Image style={styles.logo} source={logo} />
@@ -70,8 +71,12 @@ const LoginScreen = ({ navigation }) => {
           />
         </View>
 
-        <TouchableOpacity style={styles.loginButton} onPress={onSubmit} disabled={false} activeOpacity={0.8}>
+        <TouchableOpacity style={styles.loginButton} onPress={onLogin} disabled={false} activeOpacity={0.8}>
           <Text style={styles.loginButtonText}>LOGIN</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.loginButton} onPress={onScan} disabled={false} activeOpacity={0.8}>
+          <Text style={styles.loginButtonText}>QRCODE LOGIN</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

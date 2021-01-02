@@ -1,19 +1,9 @@
-import React from 'react';
-import { StyleSheet, SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import React, { useLayoutEffect } from 'react';
+import { SafeAreaView, View, Text } from 'react-native';
 import { TimeClock } from '../../components';
 
 const HomeScreen = ({ navigation }) => {
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      title: 'News',
-      headerRight: ({ tintColor }) => (
-        <TouchableOpacity style={styles.headerButton} onPress={() => navigation.navigate('Scan')}>
-          <MaterialCommunityIcons name="qrcode-scan" color={tintColor} size={22} />
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation]);
+  useLayoutEffect(() => navigation.setOptions({ title: 'News' }), [navigation]);
 
   return (
     <SafeAreaView>
@@ -27,9 +17,4 @@ const HomeScreen = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  headerButton: {
-    paddingRight: 15,
-  },
-});
 export default HomeScreen;
