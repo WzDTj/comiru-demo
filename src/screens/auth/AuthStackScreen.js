@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import LoginScreen from './LoginScreen';
 import ScanScreen from '../common/ScanScreen';
@@ -12,9 +12,9 @@ const screenOptions = {
 const AuthStack = createStackNavigator();
 const AuthStackScreen = () => {
   return (
-    <AuthStack.Navigator screenOptions={screenOptions} initialRouteName="Login">
+    <AuthStack.Navigator screenOptions={screenOptions} initialRouteName="Login" mode="modal">
       <AuthStack.Screen name="Login" component={LoginScreen} />
-      <AuthStack.Screen name="Scan" component={ScanScreen} options={{ ...TransitionPresets.ModalSlideFromBottomIOS }} />
+      <AuthStack.Screen name="Scan" component={ScanScreen} />
     </AuthStack.Navigator>
   );
 };
