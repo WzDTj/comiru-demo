@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { AuthStackScreen } from './screens/auth';
 import { HomeStackScreen } from './screens/home';
+import { PhotoStackScreen } from './screens/photo';
 import { ProfileStackScreen } from './screens/profile';
 
 import { AppContext, AppProvider } from './contexts/AppContext';
@@ -15,13 +16,15 @@ import colors from './constants/colors';
 const tabOptions = {
   home: {
     tabBarLabel: 'News',
-    tabBarIcon: ({ color, size }) => (
-      <MaterialCommunityIcons name="newspaper-variant-outline" color={color} size={size} />
-    ),
+    tabBarIcon: ({ color, size }) => <Icon name="newspaper-variant-outline" color={color} size={size} />,
+  },
+  photo: {
+    tabBarLabel: 'Photos',
+    tabBarIcon: ({ color, size }) => <Icon name="image-outline" color={color} size={size} />,
   },
   profile: {
     tabBarLabel: 'Profile',
-    tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="account-circle-outline" color={color} size={size} />,
+    tabBarIcon: ({ color, size }) => <Icon name="account-box-outline" color={color} size={size} />,
   },
 };
 
@@ -38,6 +41,7 @@ const LoadingScreen = () => {
           }}
         >
           <Tab.Screen name="Home" component={HomeStackScreen} options={tabOptions.home} />
+          <Tab.Screen name="Photo" component={PhotoStackScreen} options={tabOptions.photo} />
           <Tab.Screen name="Profile" component={ProfileStackScreen} options={tabOptions.profile} />
         </Tab.Navigator>
       ) : (

@@ -37,14 +37,14 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>Your message to user when the camera is accessed for the first time</string>
+        <key>NSPhotoLibraryUsageDescription</key>
+        <string>Give $(PRODUCT_NAME) permission to save photos</string>
+        <key>NSCameraUsageDescription</key>
+        <string>Give $(PRODUCT_NAME) permission to access your camera</string>
+        <key>NSMicrophoneUsageDescription</key>
+        <string>Give $(PRODUCT_NAME) permission to use your microphone</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Your message to user when the microsphone is accessed for the first time</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Your message to user when the photo library is accessed for the first time</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

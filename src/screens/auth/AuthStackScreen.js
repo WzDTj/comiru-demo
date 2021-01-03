@@ -6,8 +6,8 @@ import LoginScreen from './LoginScreen';
 import ScanScreen from '../common/ScanScreen';
 
 const screenOptions = {
-  headerLeftContainerStyle: { paddingHorizontal: 24 },
-  headerRightContainerStyle: { paddingHorizontal: 24 },
+  headerLeftContainerStyle: { paddingHorizontal: 16 },
+  headerRightContainerStyle: { paddingHorizontal: 16 },
 };
 const AuthStack = createStackNavigator();
 const AuthStackScreen = () => {
