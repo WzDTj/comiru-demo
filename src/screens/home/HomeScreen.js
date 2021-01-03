@@ -1,20 +1,40 @@
-import React, { useLayoutEffect } from 'react';
-import { StyleSheet, SafeAreaView, View, Text } from 'react-native';
+// TODO: use request hook <04-01-21, Dantong Jin> //
+// TODO: use loading <04-01-21, Dantong Jin> //
+// TODO: create news list <04-01-21, Dantong Jin> //
+import React, { useLayoutEffect, useState } from 'react';
+import { StyleSheet, SafeAreaView, View, FlatList } from 'react-native';
 import { TimeClock } from '../../components';
+import { NewsItem } from './components';
 import colors from '../../constants/colors';
+import { fakeNews } from '../../mocks/fakeData';
 
 const HomeScreen = ({ navigation }) => {
   useLayoutEffect(() => navigation.setOptions({ title: 'News' }), [navigation]);
 
+  const [news] = useState(fakeNews);
+
+  const keyExtractor = (item) => item.id;
+
+  const renderItem = ({ item }) => <NewsItem data={item} />;
+
+  const ItemSeparatorComponent = () => <View style={styles.separator} />;
+
+  const ListFooterComponent = () => <View style={styles.listFooter} />;
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.contentContainer}>
-        <View style={[styles.sectionContainer, styles.firstSectionContainer]}>
+        <View style={styles.timeClockContainer}>
           <TimeClock style={styles.timeClock} />
         </View>
-        <View style={styles.sectionContainer}>
-          <Text>News List</Text>
-        </View>
+        <FlatList
+          style={styles.newsContainer}
+          data={news}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+          ItemSeparatorComponent={ItemSeparatorComponent}
+          ListFooterComponent={ListFooterComponent}
+        />
       </View>
     </SafeAreaView>
   );
@@ -27,10 +47,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   contentContainer: {
-    paddingHorizontal: 16,
+    flex: 1,
   },
-  sectionContainer: {
-    marginBottom: 16,
+  timeClockContainer: {
+    margin: 16,
     padding: 16,
 
     justifyContent: 'center',
@@ -39,12 +59,21 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: '#fff',
   },
-  firstSectionContainer: {
-    marginTop: 16,
-  },
 
   timeClock: {
     color: colors.text,
     fontSize: 40,
+  },
+
+  newsContainer: {
+    paddingHorizontal: 16,
+  },
+
+  listFooter: {
+    height: 16,
+  },
+
+  separator: {
+    height: 8,
   },
 });

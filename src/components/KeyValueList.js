@@ -6,7 +6,7 @@ import colors from '../constants/colors';
 const KeyValueList = (props) => {
   const { data } = props;
 
-  const keyExtrator = (item) => item.id;
+  const keyExtractor = (item) => item.id;
 
   const renderItem = ({ item }) => <KeyValueCell {...item} />;
 
@@ -15,7 +15,7 @@ const KeyValueList = (props) => {
   return (
     <FlatList
       data={data}
-      keyExtrator={keyExtrator}
+      keyExtractor={keyExtractor}
       renderItem={renderItem}
       ItemSeparatorComponent={ItemSeparatorComponent}
     />
