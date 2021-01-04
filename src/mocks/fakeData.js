@@ -1,3 +1,11 @@
+const fakeUser = {
+  avatar: require('../assets/default_avatar.png'),
+  nickname: 'Comiru Cat',
+  mail: 'example@comiru.jp',
+  tel: '03-6265-0951',
+  website: 'https://comiru.jp/',
+};
+
 const fakeNews = [
   {
     id: '1',
@@ -51,4 +59,4 @@ const fakeNews = [
   },
 ];
 
-export { fakeNews };
+export { fakeUser, fakeNews };

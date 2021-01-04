@@ -1,22 +1,12 @@
 import React from 'react';
-
 import { createStackNavigator } from '@react-navigation/stack';
-
 import LoginScreen from './LoginScreen';
-import ScanScreen from '../common/ScanScreen';
 
-const screenOptions = {
-  headerLeftContainerStyle: { paddingHorizontal: 16 },
-  headerRightContainerStyle: { paddingHorizontal: 16 },
-};
 const AuthStack = createStackNavigator();
-const AuthStackScreen = () => {
-  return (
-    <AuthStack.Navigator screenOptions={screenOptions} initialRouteName="Login" mode="modal">
-      <AuthStack.Screen name="Login" component={LoginScreen} />
-      <AuthStack.Screen name="Scan" component={ScanScreen} />
-    </AuthStack.Navigator>
-  );
-};
+const AuthStackScreen = () => (
+  <AuthStack.Navigator initialRouteName="Login">
+    <AuthStack.Screen name="Login" component={LoginScreen} />
+  </AuthStack.Navigator>
+);
 
 export default AuthStackScreen;

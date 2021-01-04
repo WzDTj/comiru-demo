@@ -85,7 +85,7 @@ const useRequest = (requestUrl, requestOptions) => {
     if (!manual) requestTask(params);
   }, [requestTask, options]);
 
-  const request = (params = null) => requestTask(params ?? options.params);
+  const request = useCallback((params = null) => requestTask(params ?? options.params), [options, requestTask]);
 
   return { ...state, request };
 };

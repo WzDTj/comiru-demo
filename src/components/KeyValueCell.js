@@ -4,7 +4,14 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import colors from '../constants/colors';
 
 const KeyValueCell = (props) => {
-  const { title, value, onPress, isLink } = props;
+  const { title, value, onPress: onPressCallback, isLink } = props;
+
+  const onPress = () => {
+    if (!onPressCallback) return;
+
+    onPressCallback({ title, value, isLink });
+  };
+
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.contentContainer}>

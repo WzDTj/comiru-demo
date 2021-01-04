@@ -1,5 +1,6 @@
 // TODO: switch albums <03-01-21, Dantong Jin> //
 // TODO: selection order <03-01-21, Dantong Jin> //
+// TODO: pull to load <03-01-21, Dantong Jin> //
 import React, { useLayoutEffect, useEffect, useState, useCallback } from 'react';
 import { StyleSheet, Dimensions, SafeAreaView, FlatList, Text, Alert, TouchableOpacity } from 'react-native';
 import { GalleryItem } from './components';
@@ -7,11 +8,12 @@ import * as MediaLibrary from 'expo-media-library';
 import colors from '../../constants/colors';
 
 const GallerySelectorScreen = ({ route, navigation }) => {
+  const [allowMultiple] = useState(route.params?.allowMultiple);
   const [photos, setPhotos] = useState([]);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
 
   const onCancel = useCallback(() => {
-    const { onCancel: cancelHandler } = route.params;
+    const { onCancel: cancelHandler } = route.params ?? {};
 
     if (cancelHandler) cancelHandler();
 
@@ -19,7 +21,7 @@ const GallerySelectorScreen = ({ route, navigation }) => {
   }, [route, navigation]);
 
   const onConfirm = useCallback(() => {
-    const { onConfirm: confirmHandler } = route.params;
+    const { onConfirm: confirmHandler } = route.params ?? {};
 
     if (confirmHandler) confirmHandler(selectedPhotos);
 
@@ -48,6 +50,7 @@ const GallerySelectorScreen = ({ route, navigation }) => {
   useLayoutEffect(
     () =>
       navigation.setOptions({
+        title: null,
         headerLeft: () => (
           <TouchableOpacity style={styles.headerButton} onPress={onCancel}>
             <Text style={styles.headerButtonText}>Cancel</Text>
@@ -81,6 +84,10 @@ const GallerySelectorScreen = ({ route, navigation }) => {
   useEffect(() => {
     getAssets();
   }, [getAssets]);
+
+  useEffect(() => {
+    if (!allowMultiple && selectedPhotos.length === 1) onConfirm();
+  }, [selectedPhotos, allowMultiple, onConfirm]);
 
   return (
     <SafeAreaView style={styles.container}>

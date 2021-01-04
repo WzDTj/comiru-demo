@@ -1,16 +1,27 @@
-import React, { useContext, useLayoutEffect } from 'react';
+import React, { useContext, useEffect, useLayoutEffect } from 'react';
 import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity } from 'react-native';
 import { AppContext } from '../../contexts/AppContext';
-import { defaultAvatar } from '../../assets';
 import { KeyValueList } from '../../components';
+import { useUser } from '../../hooks';
 import colors from '../../constants/colors';
 
 const ProfileScreen = ({ navigation }) => {
   useLayoutEffect(() => navigation.setOptions({ headerShown: false }), [navigation]);
 
-  const { dispatch } = useContext(AppContext);
+  // fetch user after mounted
+  useEffect(() => {
+    fetch();
+  }, [fetch]);
+
+  const {
+    state: { user },
+    dispatch,
+  } = useContext(AppContext);
+
+  const { fetch } = useUser();
+
   const data = [
-    { id: '1', title: 'My Profile', value: null, isLink: true },
+    { id: '1', title: 'My Profile', value: null, isLink: true, onPress: () => navigation.push('UserInfo') },
     { id: '2', title: 'Help & Feedback', value: null, isLink: true },
     { id: '3', title: 'Service Agreement', value: null, isLink: true, onPress: () => navigation.push('Agreement') },
     { id: '4', title: 'Settings', value: null, isLink: true },
@@ -22,8 +33,8 @@ const ProfileScreen = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.contentContainer}>
         <View style={styles.userContainer}>
-          <Image style={styles.avatar} source={defaultAvatar} />
-          <Text style={styles.nickname}>Comiru Cat</Text>
+          <Image style={styles.avatar} source={user?.avatar} />
+          <Text style={styles.nickname}>{user?.nickname}</Text>
         </View>
 
         <View style={styles.featureContainer}>
@@ -61,7 +72,8 @@ const styles = StyleSheet.create({
   avatar: {
     width: 100,
     height: 100,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
+    borderRadius: 50,
   },
   nickname: {
     marginTop: 8,
@@ -71,8 +83,8 @@ const styles = StyleSheet.create({
   },
 
   featureContainer: {
-    margin: 15,
-    borderRadius: 12,
+    margin: 16,
+    borderRadius: 8,
     backgroundColor: '#fff',
     flexDirection: 'column',
   },
@@ -82,7 +94,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     height: 48,
     backgroundColor: colors.primary,
-    borderRadius: 12,
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
   },
