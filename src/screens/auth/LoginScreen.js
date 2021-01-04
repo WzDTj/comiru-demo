@@ -16,9 +16,7 @@ const LoginScreen = ({ navigation }) => {
     manual: true,
     mock: async () => {
       return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve({ token: 'dummy-token' });
-        }, 1000);
+        resolve({ token: 'dummy-token' });
       });
     },
     onSuccess: (data) => {

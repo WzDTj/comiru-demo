@@ -20,11 +20,13 @@ const ProfileScreen = ({ navigation }) => {
 
   const { fetch } = useUser();
 
-  const data = [
+  const userFeatures = [
     { id: '1', title: 'My Profile', value: null, isLink: true, onPress: () => navigation.push('UserInfo') },
-    { id: '2', title: 'Help & Feedback', value: null, isLink: true },
-    { id: '3', title: 'Service Agreement', value: null, isLink: true, onPress: () => navigation.push('Agreement') },
-    { id: '4', title: 'Settings', value: null, isLink: true },
+    { id: '2', title: 'Service Agreement', value: null, isLink: true, onPress: () => navigation.push('Agreement') },
+  ];
+
+  const otherfeatrues = [
+    { id: '1', title: 'Components', value: null, isLink: true, onPress: () => navigation.push('Components') },
   ];
 
   const onLogout = () => dispatch({ type: 'LOGOUT' });
@@ -38,7 +40,11 @@ const ProfileScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.featureContainer}>
-          <KeyValueList data={data} />
+          <KeyValueList data={userFeatures} />
+        </View>
+
+        <View style={styles.featureContainer}>
+          <KeyValueList data={otherfeatrues} />
         </View>
 
         <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
@@ -83,14 +89,15 @@ const styles = StyleSheet.create({
   },
 
   featureContainer: {
-    margin: 16,
+    marginTop: 16,
+    marginHorizontal: 16,
     borderRadius: 8,
     backgroundColor: '#fff',
     flexDirection: 'column',
   },
 
   logoutButton: {
-    marginVertical: 16,
+    marginVertical: 32,
     marginHorizontal: 16,
     height: 48,
     backgroundColor: colors.primary,

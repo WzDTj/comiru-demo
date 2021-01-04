@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import ProfileScreen from './ProfileScreen';
 import AgreementScreen from './AgreementScreen';
 import UserInfoScreen from './UserInfoScreen';
+import ComponentsScreen from './ComponentsScreen';
 import { defaultScreenOptions } from '../../constants/settings';
 
 const ProfileStack = createStackNavigator();
@@ -11,6 +12,7 @@ const ProfileStackScreen = () => (
     <ProfileStack.Screen name="Profile" component={ProfileScreen} />
     <ProfileStack.Screen name="Agreement" component={AgreementScreen} />
     <ProfileStack.Screen name="UserInfo" component={UserInfoScreen} />
+    <ProfileStack.Screen name="Components" component={ComponentsScreen} />
   </ProfileStack.Navigator>
 );
 
