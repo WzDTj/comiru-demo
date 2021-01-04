@@ -5,6 +5,7 @@ import { AppContext } from '../../contexts/AppContext';
 import { useRequest } from '../../hooks';
 import { logo } from '../../assets';
 import apis from '../../constants/apis';
+import colors from '../../constants/colors';
 
 const LoginScreen = ({ navigation }) => {
   useLayoutEffect(() => navigation.setOptions({ headerShown: false }), [navigation]);
@@ -71,13 +72,15 @@ const LoginScreen = ({ navigation }) => {
           />
         </View>
 
-        <TouchableOpacity style={styles.loginButton} onPress={onLogin} disabled={false} activeOpacity={0.8}>
-          <Text style={styles.loginButtonText}>LOGIN</Text>
-        </TouchableOpacity>
+        <View style={styles.buttonsContainer}>
+          <TouchableOpacity style={styles.loginButton} onPress={onLogin} disabled={false} activeOpacity={0.8}>
+            <Text style={styles.loginButtonText}>LOGIN</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.loginButton} onPress={onScan} disabled={false} activeOpacity={0.8}>
-          <Text style={styles.loginButtonText}>QRCODE LOGIN</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.loginButton} onPress={onScan} disabled={false} activeOpacity={0.8}>
+            <Text style={styles.loginButtonText}>QRCODE LOGIN</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -86,7 +89,7 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fddc3e',
+    backgroundColor: '#fff',
   },
   contentContainer: {
     paddingTop: '33.33%',
@@ -112,25 +115,28 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     paddingHorizontal: 25,
     height: 50,
-    backgroundColor: '#fff',
     borderRadius: 25,
+    borderColor: colors.primary,
+    borderWidth: StyleSheet.hairlineWidth,
   },
   lastInput: {
     marginBottom: 0,
   },
 
+  buttonsContainer: {
+    marginTop: 32,
+  },
   loginButton: {
-    marginTop: 24,
+    marginBottom: 8,
     height: 50,
-
-    backgroundColor: '#16bfb7',
+    backgroundColor: colors.primary,
     borderRadius: 25,
 
     justifyContent: 'center',
     alignItems: 'center',
   },
   loginButtonText: {
-    color: '#fff',
+    color: colors.text,
     fontSize: 20,
     fontWeight: 'bold',
   },
