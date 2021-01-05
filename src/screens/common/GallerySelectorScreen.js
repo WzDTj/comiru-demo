@@ -8,7 +8,7 @@ import * as MediaLibrary from 'expo-media-library';
 import colors from '../../constants/colors';
 
 const GallerySelectorScreen = ({ route, navigation }) => {
-  const [allowMultiple] = useState(route.params?.allowMultiple);
+  const [allowMultiple] = useState(route.params?.allowMultiple ?? true);
   const [photos, setPhotos] = useState([]);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
 
