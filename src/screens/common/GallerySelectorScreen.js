@@ -2,10 +2,12 @@
 // TODO: selection order <03-01-21, Dantong Jin> //
 // TODO: pull to load <03-01-21, Dantong Jin> //
 import React, { useLayoutEffect, useEffect, useState, useCallback } from 'react';
-import { StyleSheet, Dimensions, SafeAreaView, FlatList, Text, Alert, TouchableOpacity } from 'react-native';
+import { StyleSheet, Dimensions, SafeAreaView, FlatList, Text, Alert, TouchableOpacity, LogBox } from 'react-native';
 import { GalleryItem } from './components';
 import * as MediaLibrary from 'expo-media-library';
 import colors from '../../constants/colors';
+
+LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 
 const GallerySelectorScreen = ({ route, navigation }) => {
   const [allowMultiple] = useState(route.params?.allowMultiple ?? true);
