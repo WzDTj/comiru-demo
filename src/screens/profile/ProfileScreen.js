@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useLayoutEffect } from 'react';
-import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Image, Text } from 'react-native';
 import { AppContext } from '../../contexts/AppContext';
-import { KeyValueList } from '../../components';
+import { BaseButton, KeyValueList } from '../../components';
 import { useUser } from '../../hooks';
 import colors from '../../constants/colors';
 
@@ -47,9 +47,13 @@ const ProfileScreen = ({ navigation }) => {
           <KeyValueList data={otherfeatrues} />
         </View>
 
-        <TouchableOpacity style={styles.logoutButton} onPress={onLogout}>
-          <Text style={styles.logoutButtonText}>LOGOUT</Text>
-        </TouchableOpacity>
+        <BaseButton
+          style={styles.logoutButton}
+          textStyle={styles.logoutButtonText}
+          text="LOGOUT"
+          type="primary"
+          onPress={onLogout}
+        />
       </View>
     </SafeAreaView>
   );
@@ -99,15 +103,11 @@ const styles = StyleSheet.create({
   logoutButton: {
     marginVertical: 32,
     marginHorizontal: 16,
-    height: 48,
-    backgroundColor: colors.primary,
     borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   logoutButtonText: {
     color: colors.text,
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
