@@ -4,12 +4,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { AuthStackScreen } from './screens/auth';
-import { HomeStackScreen } from './screens/home';
-import { PhotoStackScreen } from './screens/photo';
-import { ProfileStackScreen } from './screens/profile';
-import { ScanScreen } from './screens/common';
-import { GallerySelectorScreen } from './screens/common';
+import AuthStackScreen from './screens/auth/AuthStackScreen';
+import HomeStackScreen from './screens/home/HomeStackScreen';
+import PhotoStackScreen from './screens/photo/PhotoStackScreen';
+import ProfileStackScreen from './screens/profile/ProfileStackScreen';
+import { ScanScreen, GallerySelectorScreen } from './screens/common';
 
 import { AppContext, AppProvider } from './contexts/AppContext';
 
