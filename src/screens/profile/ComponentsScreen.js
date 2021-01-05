@@ -18,12 +18,12 @@ const ComponentsScreen = ({ navigation }) => {
 
         <View style={[styles.componentContainer, styles.row]}>
           <CircleProgress color={colors.primary} size={80} strokeWidth={10} percentage={25} />
-          <CircleProgress color={colors.secondary} size={80} strokeWidth={10} percentage={50} />
+          <CircleProgress color={colors.success} size={80} strokeWidth={10} percentage={50} />
           <CircleProgress color={colors.danger} size={80} strokeWidth={10} percentage={75} />
         </View>
 
         <View style={[styles.componentContainer, styles.row]}>
-          <CircleProgress color={colors.secondary} size={80} strokeWidth={10} percentage={percentage} />
+          <CircleProgress color={colors.success} size={80} strokeWidth={10} percentage={percentage} />
           <CountDown textStyle={styles.countDown} initial={10} onCount={onCount} />
         </View>
       </View>

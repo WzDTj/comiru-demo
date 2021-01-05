@@ -1,6 +1,6 @@
-// TODO: login button: loading, disabled <31-12-20, Dantong Jin> //
-import React, { useState, useContext, useLayoutEffect } from 'react';
-import { StyleSheet, SafeAreaView, View, Image, TextInput, Text, TouchableOpacity, StatusBar } from 'react-native';
+import React, { useMemo, useState, useContext, useLayoutEffect } from 'react';
+import { StyleSheet, SafeAreaView, View, Image, TextInput, StatusBar } from 'react-native';
+import { BaseButton } from '../../components';
 import { AppContext } from '../../contexts/AppContext';
 import { useRequest } from '../../hooks';
 import { logo } from '../../assets';
@@ -12,11 +12,13 @@ const LoginScreen = ({ navigation }) => {
 
   const { dispatch } = useContext(AppContext);
 
-  const { request } = useRequest(apis.LOGIN, {
+  const { loading, request } = useRequest(apis.LOGIN, {
     manual: true,
     mock: async () => {
       return new Promise((resolve, reject) => {
-        resolve({ token: 'dummy-token' });
+        setTimeout(() => {
+          resolve({ token: 'dummy-token' });
+        }, 1000);
       });
     },
     onSuccess: (data) => {
@@ -38,7 +40,11 @@ const LoginScreen = ({ navigation }) => {
     request();
   };
 
-  const onScan = () => navigation.push('Scan');
+  const onGoToScan = () => navigation.push('Scan');
+
+  const canLogin = useMemo(() => {
+    return !loading && username && password;
+  }, [loading, username, password]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -71,13 +77,22 @@ const LoginScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.loginButton} onPress={onLogin} disabled={false} activeOpacity={0.8}>
-            <Text style={styles.loginButtonText}>LOGIN</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.loginButton} onPress={onScan} disabled={false} activeOpacity={0.8}>
-            <Text style={styles.loginButtonText}>QRCODE LOGIN</Text>
-          </TouchableOpacity>
+          <BaseButton
+            style={styles.loginButton}
+            textStyle={styles.loginButtonText}
+            type="primary"
+            text="LOGIN"
+            disabled={!canLogin}
+            loading={loading}
+            onPress={onLogin}
+          />
+          <BaseButton
+            style={styles.loginButton}
+            textStyle={styles.loginButtonText}
+            type="primary"
+            text="SCAN QR CODE"
+            onPress={onGoToScan}
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -91,7 +106,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: '33.33%',
-    paddingHorizontal: 50,
+    paddingHorizontal: 48,
     flexDirection: 'column',
     justifyContent: 'center',
   },
@@ -111,9 +126,9 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 8,
-    paddingHorizontal: 25,
-    height: 50,
-    borderRadius: 25,
+    paddingHorizontal: 24,
+    height: 48,
+    borderRadius: 24,
     borderColor: colors.primary,
     borderWidth: StyleSheet.hairlineWidth,
   },
@@ -126,15 +141,10 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     marginBottom: 8,
-    height: 50,
-    backgroundColor: colors.primary,
-    borderRadius: 25,
-
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: 48,
+    borderRadius: 24,
   },
   loginButtonText: {
-    color: colors.text,
     fontSize: 20,
     fontWeight: 'bold',
   },
