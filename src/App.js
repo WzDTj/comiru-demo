@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
+import { StyleSheet, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -23,30 +24,30 @@ import { initialState, reducer } from './reducers/index.js';
 import colors from './constants/colors';
 import { defaultScreenOptions } from './constants/settings';
 
+const styles = StyleSheet.create({
+  tabBarLabel: { lineHeight: 20 },
+});
+
 const tabOptions = {
   home: {
-    tabBarLabel: 'News',
-    tabBarIcon: ({ color, size }) => <Icon name="newspaper-variant-outline" color={color} size={size} />,
+    tabBarLabel: <Text style={styles.tabBarLabel}>News</Text>,
+    tabBarIcon: ({ color, size }) => <Icon name="newspaper-variant-outline" color={color} size={24} />,
   },
   component: {
-    tabBarLabel: 'Components',
-    tabBarIcon: ({ color, size }) => <Icon name="layers-triple-outline" color={color} size={size} />,
+    tabBarLabel: <Text style={styles.tabBarLabel}>Components</Text>,
+    tabBarIcon: ({ color, size }) => <Icon name="layers-triple-outline" color={color} size={24} />,
   },
   photo: {
-    tabBarLabel: 'Photos',
-    tabBarIcon: ({ color, size }) => <Icon name="image-outline" color={color} size={size} />,
+    tabBarLabel: <Text style={styles.tabBarLabel}>Photos</Text>,
+    tabBarIcon: ({ color, size }) => <Icon name="image-outline" color={color} size={24} />,
   },
   profile: {
-    tabBarLabel: 'You',
-    tabBarIcon: ({ color, size }) => <Icon name="account-box-outline" color={color} size={size} />,
+    tabBarLabel: <Text style={styles.tabBarLabel}>You</Text>,
+    tabBarIcon: ({ color, size }) => <Icon name="account-box-outline" color={color} size={24} />,
   },
 };
 
-const tabBarOptions = {
-  activeTintColor: colors.primary,
-};
-
-const MainTab = createBottomTabNavigator();
+const MainTab = createMaterialBottomTabNavigator();
 const MainTabScreen = () => {
   const { state } = useContext(AppContext);
   const { isLoggedIn } = state.auth;
@@ -54,7 +55,12 @@ const MainTabScreen = () => {
   if (!isLoggedIn) return <AuthStackScreen />;
 
   return (
-    <MainTab.Navigator tabBarOptions={tabBarOptions}>
+    <MainTab.Navigator
+      initialRouteName="Home"
+      activeColor={colors.text}
+      inactiveColor={colors.text}
+      barStyle={{ backgroundColor: colors.primary }}
+    >
       <MainTab.Screen name="Home" component={HomeStackScreen} options={tabOptions.home} />
       <MainTab.Screen name="Component" component={ComponentStackScreen} options={tabOptions.component} />
       <MainTab.Screen name="Photo" component={PhotoStackScreen} options={tabOptions.photo} />
