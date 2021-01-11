@@ -66,14 +66,16 @@ const useRequest = (requestUrl, requestOptions) => {
         );
       };
 
-      task()
+      return task()
         .then((data) => {
           dispatch({ type: 'FETCH_SUCCESS', payload: { data } });
-          onSuccess(data);
+          if (onSuccess) onSuccess(data);
+          return Promise.resolve(data);
         })
         .catch((error) => {
           dispatch({ type: 'FETCH_FAILURE', payload: { error } });
-          onError(error);
+          if (onError) onError(error);
+          return Promise.reject(error);
         });
     },
     [url, options],

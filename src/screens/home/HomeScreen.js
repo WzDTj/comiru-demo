@@ -1,25 +1,52 @@
-// TODO: use request hook <04-01-21, Dantong Jin> //
-// TODO: use loading <04-01-21, Dantong Jin> //
-// TODO: create news list <04-01-21, Dantong Jin> //
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react';
 import { StyleSheet, SafeAreaView, View, FlatList } from 'react-native';
+import { useRequest } from '../../hooks';
 import { TimeClock } from '../../components';
 import { NewsItem } from './components';
 import colors from '../../constants/colors';
+import apis from '../../constants/apis';
 import { fakeNews } from '../../mocks/fakeData';
 
 const HomeScreen = ({ navigation }) => {
   useLayoutEffect(() => navigation.setOptions({ title: 'News' }), [navigation]);
 
-  const [news] = useState(fakeNews);
+  const [news, setNews] = useState([]);
+  const [refreshing, setRefreshing] = useState(true);
 
-  const keyExtractor = (item) => item.id;
+  const keyExtractor = (item, index) => index.toString();
 
   const renderItem = ({ item }) => <NewsItem data={item} />;
 
   const ItemSeparatorComponent = () => <View style={styles.separator} />;
 
   const ListFooterComponent = () => <View style={styles.listFooter} />;
+
+  const { request: fetchNews } = useRequest(apis.FETCH_NEWS, {
+    manual: true,
+    mock: async () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve({ data: fakeNews });
+        }, 1000);
+      });
+    },
+  });
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    fetchNews()
+      .then(({ data }) => setNews(data))
+      .finally(() => setRefreshing(false));
+  }, [fetchNews]);
+
+  const onEndReached = useCallback(
+    () => fetchNews().then(({ data }) => setNews((oldValue) => [...oldValue, ...data])),
+    [fetchNews],
+  );
+
+  useEffect(() => {
+    onRefresh();
+  }, [onRefresh]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -34,6 +61,10 @@ const HomeScreen = ({ navigation }) => {
           renderItem={renderItem}
           ItemSeparatorComponent={ItemSeparatorComponent}
           ListFooterComponent={ListFooterComponent}
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          onEndReached={onEndReached}
+          onEndReachedThreshold={0.5}
         />
       </View>
     </SafeAreaView>

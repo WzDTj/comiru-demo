@@ -1,4 +1,3 @@
-// TODO: add loading <04-01-21, Dantong Jin> //
 import React, { useLayoutEffect } from 'react';
 import { StyleSheet, SafeAreaView, View, Image, Linking, Text, TouchableOpacity } from 'react-native';
 import { KeyValueList } from '../../components';
