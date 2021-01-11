@@ -1,6 +1,3 @@
-// TODO: switch albums <03-01-21, Dantong Jin> //
-// TODO: selection order <03-01-21, Dantong Jin> //
-// TODO: pull to load <03-01-21, Dantong Jin> //
 import React, { useLayoutEffect, useEffect, useState, useCallback } from 'react';
 import { StyleSheet, Dimensions, SafeAreaView, FlatList, Text, Alert, TouchableOpacity, LogBox } from 'react-native';
 import { GalleryItem } from './components';
@@ -13,7 +10,7 @@ const GallerySelectorScreen = ({ route, navigation }) => {
   useLayoutEffect(
     () =>
       navigation.setOptions({
-        title: null,
+        title: 'Gallery Selector',
         headerLeft: () => (
           <TouchableOpacity style={styles.headerButton} onPress={onCancel}>
             <Text style={styles.headerButtonText}>Cancel</Text>
