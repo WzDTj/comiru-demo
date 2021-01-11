@@ -10,8 +10,28 @@ import colors from '../../constants/colors';
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 
 const GallerySelectorScreen = ({ route, navigation }) => {
+  useLayoutEffect(
+    () =>
+      navigation.setOptions({
+        title: null,
+        headerLeft: () => (
+          <TouchableOpacity style={styles.headerButton} onPress={onCancel}>
+            <Text style={styles.headerButtonText}>Cancel</Text>
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity style={styles.headerButton} onPress={onConfirm}>
+            <Text style={styles.headerButtonText}>Confirm</Text>
+          </TouchableOpacity>
+        ),
+      }),
+    [onCancel, onConfirm, navigation],
+  );
+
   const [allowMultiple] = useState(route.params?.allowMultiple ?? true);
   const [photos, setPhotos] = useState([]);
+  const [endCursor, setEndCursor] = useState(null);
+  const [hasNextPage, setHasNextPage] = useState(true);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
 
   const onCancel = useCallback(() => {
@@ -31,10 +51,7 @@ const GallerySelectorScreen = ({ route, navigation }) => {
   }, [route, navigation, selectedPhotos]);
 
   const onToggle = useCallback(
-    (payload) => {
-      const { selected, data } = payload;
-      selected ? appendToSelectedPhotos(data) : removeFromSelectedPhotos(data);
-    },
+    ({ selected, data }) => (selected ? appendToSelectedPhotos(data) : removeFromSelectedPhotos(data)),
     [appendToSelectedPhotos, removeFromSelectedPhotos],
   );
 
@@ -49,43 +66,37 @@ const GallerySelectorScreen = ({ route, navigation }) => {
 
   const keyExtractor = (asset) => asset.id;
 
-  useLayoutEffect(
-    () =>
-      navigation.setOptions({
-        title: null,
-        headerLeft: () => (
-          <TouchableOpacity style={styles.headerButton} onPress={onCancel}>
-            <Text style={styles.headerButtonText}>Cancel</Text>
-          </TouchableOpacity>
-        ),
-        headerRight: () => (
-          <TouchableOpacity style={styles.headerButton} onPress={onConfirm}>
-            <Text style={styles.headerButtonText}>Confirm</Text>
-          </TouchableOpacity>
-        ),
-      }),
-    [onCancel, onConfirm, navigation],
-  );
+  const onEndReached = (info) => {
+    if (hasNextPage) fetchAssets({ after: endCursor });
+  };
 
-  const getAssets = useCallback(async () => {
-    const { status } = await MediaLibrary.requestPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Sorry, we need camera roll permissions to make this work!', null, [
-        {
+  const requestPermissions = useCallback(async () => {
+    await MediaLibrary.requestPermissionsAsync()
+      .then(({ status }) => (status === 'granted' ? Promise.resolve() : Promise.reject()))
+      .catch(() => {
+        const cancelButton = {
           text: 'OK',
           onPress: () => navigation.goBack(),
           style: 'cancel',
-        },
-      ]);
-    }
-    MediaLibrary.getAssetsAsync()
-      .then((result) => setPhotos(result.assets))
-      .catch((error) => console.warn(error));
+        };
+
+        Alert.alert('Sorry, we need camera roll permissions to make this work!', null, [cancelButton]);
+      });
   }, [navigation]);
 
+  const fetchAssets = useCallback(async (params) => {
+    MediaLibrary.getAssetsAsync(params)
+      .then(({ assets, endCursor, hasNextPage }) => {
+        setPhotos((oldValue) => oldValue.concat(assets));
+        setEndCursor(endCursor);
+        setHasNextPage(hasNextPage);
+      })
+      .catch((error) => console.warn(error));
+  }, []);
+
   useEffect(() => {
-    getAssets();
-  }, [getAssets]);
+    requestPermissions().then(() => fetchAssets());
+  }, [requestPermissions, fetchAssets]);
 
   useEffect(() => {
     if (!allowMultiple && selectedPhotos.length === 1) onConfirm();
@@ -99,6 +110,7 @@ const GallerySelectorScreen = ({ route, navigation }) => {
         data={photos}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
+        onEndReached={onEndReached}
       />
     </SafeAreaView>
   );
@@ -106,7 +118,7 @@ const GallerySelectorScreen = ({ route, navigation }) => {
 
 export default GallerySelectorScreen;
 
-const imageWidth = (Dimensions.get('window').width + 2) / 3;
+const IMAGE_WIDTH = (Dimensions.get('window').width + 2) / 3;
 
 const styles = StyleSheet.create({
   container: {
@@ -120,8 +132,8 @@ const styles = StyleSheet.create({
   },
   galleryItem: {
     padding: 1,
-    width: imageWidth,
-    height: imageWidth,
+    width: IMAGE_WIDTH,
+    height: IMAGE_WIDTH,
   },
   headerButton: {
     marginHorizontal: 16,
