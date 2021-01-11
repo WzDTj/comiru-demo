@@ -25,10 +25,6 @@ const ProfileScreen = ({ navigation }) => {
     { id: '2', title: 'Service Agreement', value: null, isLink: true, onPress: () => navigation.push('Agreement') },
   ];
 
-  const otherfeatrues = [
-    { id: '1', title: 'Components', value: null, isLink: true, onPress: () => navigation.push('Components') },
-  ];
-
   const onLogout = () => dispatch({ type: 'LOGOUT' });
 
   return (
@@ -41,10 +37,6 @@ const ProfileScreen = ({ navigation }) => {
 
         <View style={styles.featureContainer}>
           <KeyValueList data={userFeatures} />
-        </View>
-
-        <View style={styles.featureContainer}>
-          <KeyValueList data={otherfeatrues} />
         </View>
 
         <BaseButton

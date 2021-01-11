@@ -3,7 +3,7 @@ import { StyleSheet, SafeAreaView, View } from 'react-native';
 import { CircleProgress, CountDown, TimeClock } from '../../components';
 import colors from '../../constants/colors';
 
-const ComponentsScreen = ({ navigation }) => {
+const ComponentScreen = ({ navigation }) => {
   useLayoutEffect(() => navigation.setOptions({ title: 'Components' }), [navigation]);
   const [percentage, setPercentage] = useState(0);
 
@@ -31,7 +31,7 @@ const ComponentsScreen = ({ navigation }) => {
   );
 };
 
-export default ComponentsScreen;
+export default ComponentScreen;
 
 const styles = StyleSheet.create({
   container: {

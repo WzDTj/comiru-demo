@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AuthStackScreen from './screens/auth/AuthStackScreen';
 
 import HomeStackScreen from './screens/home/HomeStackScreen';
+import ComponentStackScreen from './screens/component/ComponentStackScreen';
 import PhotoStackScreen from './screens/photo/PhotoStackScreen';
 import ProfileStackScreen from './screens/profile/ProfileStackScreen';
 
@@ -27,12 +28,16 @@ const tabOptions = {
     tabBarLabel: 'News',
     tabBarIcon: ({ color, size }) => <Icon name="newspaper-variant-outline" color={color} size={size} />,
   },
+  component: {
+    tabBarLabel: 'Components',
+    tabBarIcon: ({ color, size }) => <Icon name="layers-triple-outline" color={color} size={size} />,
+  },
   photo: {
     tabBarLabel: 'Photos',
     tabBarIcon: ({ color, size }) => <Icon name="image-outline" color={color} size={size} />,
   },
   profile: {
-    tabBarLabel: 'Profile',
+    tabBarLabel: 'You',
     tabBarIcon: ({ color, size }) => <Icon name="account-box-outline" color={color} size={size} />,
   },
 };
@@ -51,6 +56,7 @@ const MainTabScreen = () => {
   return (
     <MainTab.Navigator tabBarOptions={tabBarOptions}>
       <MainTab.Screen name="Home" component={HomeStackScreen} options={tabOptions.home} />
+      <MainTab.Screen name="Component" component={ComponentStackScreen} options={tabOptions.component} />
       <MainTab.Screen name="Photo" component={PhotoStackScreen} options={tabOptions.photo} />
       <MainTab.Screen name="Profile" component={ProfileStackScreen} options={tabOptions.profile} />
     </MainTab.Navigator>
