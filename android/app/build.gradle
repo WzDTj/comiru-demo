@@ -167,6 +167,18 @@ android {
         }
     }
 
+    flavorDimensions "default"
+    productFlavors {
+        Coolapk {
+        }
+        Huawei {
+        }
+        Xiaomi {
+        }
+        GooglePlay {
+        }
+    }
+
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
