@@ -37,6 +37,7 @@ const UserInfoScreen = ({ navigation }) => {
     navigation.navigate('GallerySelector', {
       allowMultiple: false,
       onConfirm: (payload) => {
+        if (payload.length === 0) return;
         const { uri } = payload[0];
         update({ avatar: { uri } });
       },
