@@ -7,24 +7,6 @@ import colors from '../../constants/colors';
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 
 const GallerySelectorScreen = ({ route, navigation }) => {
-  useLayoutEffect(
-    () =>
-      navigation.setOptions({
-        title: 'Gallery Selector',
-        headerLeft: () => (
-          <TouchableOpacity style={styles.headerButton} onPress={onCancel}>
-            <Text style={styles.headerButtonText}>Cancel</Text>
-          </TouchableOpacity>
-        ),
-        headerRight: () => (
-          <TouchableOpacity style={styles.headerButton} onPress={onConfirm}>
-            <Text style={styles.headerButtonText}>Confirm</Text>
-          </TouchableOpacity>
-        ),
-      }),
-    [onCancel, onConfirm, navigation],
-  );
-
   const [allowMultiple] = useState(route.params?.allowMultiple ?? true);
   const [photos, setPhotos] = useState([]);
   const [endCursor, setEndCursor] = useState(null);
@@ -47,9 +29,22 @@ const GallerySelectorScreen = ({ route, navigation }) => {
     navigation.goBack();
   }, [route, navigation, selectedPhotos]);
 
-  const onToggle = useCallback(
-    ({ selected, data }) => (selected ? appendToSelectedPhotos(data) : removeFromSelectedPhotos(data)),
-    [appendToSelectedPhotos, removeFromSelectedPhotos],
+  const headerLeft = useCallback(
+    () => (
+      <TouchableOpacity style={styles.headerButton} onPress={onCancel}>
+        <Text style={styles.headerButtonText}>Cancel</Text>
+      </TouchableOpacity>
+    ),
+    [onCancel],
+  );
+
+  const headerRight = useCallback(
+    () => (
+      <TouchableOpacity style={styles.headerButton} onPress={onConfirm}>
+        <Text style={styles.headerButtonText}>Confirm</Text>
+      </TouchableOpacity>
+    ),
+    [onConfirm],
   );
 
   const appendToSelectedPhotos = useCallback((data) => setSelectedPhotos((oldValue) => [...oldValue, data]), []);
@@ -57,6 +52,11 @@ const GallerySelectorScreen = ({ route, navigation }) => {
   const removeFromSelectedPhotos = useCallback(
     (data) => setSelectedPhotos((oldValue) => oldValue.filter((item) => item.id !== data.id)),
     [],
+  );
+
+  const onToggle = useCallback(
+    ({ selected, data }) => (selected ? appendToSelectedPhotos(data) : removeFromSelectedPhotos(data)),
+    [appendToSelectedPhotos, removeFromSelectedPhotos],
   );
 
   const renderItem = ({ item }) => <GalleryItem style={styles.galleryItem} data={item} onToggle={onToggle} />;
@@ -98,6 +98,12 @@ const GallerySelectorScreen = ({ route, navigation }) => {
   useEffect(() => {
     if (!allowMultiple && selectedPhotos.length === 1) onConfirm();
   }, [selectedPhotos, allowMultiple, onConfirm]);
+
+  useLayoutEffect(() => navigation.setOptions({ title: 'Gallery Selector', headerLeft, headerRight }), [
+    headerLeft,
+    headerRight,
+    navigation,
+  ]);
 
   return (
     <SafeAreaView style={styles.container}>
