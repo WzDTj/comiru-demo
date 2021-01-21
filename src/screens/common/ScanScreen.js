@@ -41,6 +41,7 @@ const ScanScreen = ({ navigation }) => {
     onSuccess: (data) => {
       const { token } = data;
       dispatch({ type: 'LOGIN', payload: { token } });
+      navigation.goBack();
     },
     onError: (error) => console.warn('error', error),
   });
