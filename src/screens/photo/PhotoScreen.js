@@ -1,8 +1,13 @@
 import React, { useLayoutEffect, useEffect, useState } from 'react';
-import { FlatList, Dimensions, StyleSheet, SafeAreaView, View, Image, TouchableOpacity } from 'react-native';
+import { Dimensions, FlatList, StyleSheet, SafeAreaView, View, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import colors from '../../constants/colors';
+
+const WINDOW_WIDTH = Dimensions.get('window').width;
+const isLargeScreen = WINDOW_WIDTH >= 768;
+const NUM_COLUMNS = isLargeScreen ? 6 : 4;
+const IMAGE_WIDTH = (WINDOW_WIDTH - NUM_COLUMNS * 2 + 2) / NUM_COLUMNS;
 
 const PhotoScreen = ({ route, navigation }) => {
   const [photos, setPhotos] = useState([]);
@@ -53,7 +58,7 @@ const PhotoScreen = ({ route, navigation }) => {
     <SafeAreaView style={styles.container}>
       <FlatList
         style={styles.contentContainer}
-        numColumns={3}
+        numColumns={NUM_COLUMNS}
         data={photos}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
@@ -64,8 +69,6 @@ const PhotoScreen = ({ route, navigation }) => {
 
 export default PhotoScreen;
 
-const imageWidth = (Dimensions.get('window').width + 2) / 3;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -73,13 +76,11 @@ const styles = StyleSheet.create({
   contentContainer: {
     margin: -1,
     flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
   },
   imageContainer: {
-    padding: 1,
-    width: imageWidth,
-    height: imageWidth,
+    margin: 1,
+    width: IMAGE_WIDTH,
+    height: IMAGE_WIDTH,
   },
   image: {
     flex: 1,
