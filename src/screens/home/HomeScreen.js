@@ -1,11 +1,14 @@
 import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react';
-import { StyleSheet, SafeAreaView, View, FlatList } from 'react-native';
+import { Dimensions, StyleSheet, SafeAreaView, View, FlatList } from 'react-native';
 import { useRequest } from '../../hooks';
 import { TimeClock } from '../../components';
 import { NewsItem } from './components';
 import colors from '../../constants/colors';
 import apis from '../../constants/apis';
 import { fakeNews } from '../../mocks/fakeData';
+
+const WINDOW_WIDTH = Dimensions.get('window').width;
+const isLargeScreen = WINDOW_WIDTH >= 768;
 
 const HomeScreen = ({ navigation }) => {
   useLayoutEffect(() => navigation.setOptions({ title: 'News' }), [navigation]);
@@ -15,9 +18,11 @@ const HomeScreen = ({ navigation }) => {
 
   const keyExtractor = (item, index) => index.toString();
 
-  const renderItem = ({ item }) => <NewsItem data={item} />;
-
-  const ItemSeparatorComponent = () => <View style={styles.separator} />;
+  const renderItem = ({ item }) => (
+    <View style={styles.newsItemContainer}>
+      <NewsItem data={item} />
+    </View>
+  );
 
   const ListFooterComponent = () => <View style={styles.listFooter} />;
 
@@ -55,16 +60,16 @@ const HomeScreen = ({ navigation }) => {
           <TimeClock style={styles.timeClock} />
         </View>
         <FlatList
-          style={styles.newsContainer}
+          contentContainerStyle={styles.newsContainer}
           data={news}
           keyExtractor={keyExtractor}
           renderItem={renderItem}
-          ItemSeparatorComponent={ItemSeparatorComponent}
           ListFooterComponent={ListFooterComponent}
           refreshing={refreshing}
           onRefresh={onRefresh}
           onEndReached={onEndReached}
           onEndReachedThreshold={0.5}
+          numColumns={isLargeScreen ? 2 : 1}
         />
       </View>
     </SafeAreaView>
@@ -97,14 +102,14 @@ const styles = StyleSheet.create({
   },
 
   newsContainer: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 8,
+  },
+  newsItemContainer: {
+    margin: 8,
+    width: isLargeScreen ? (WINDOW_WIDTH - 48) / 2 : WINDOW_WIDTH - 32,
   },
 
   listFooter: {
     height: 16,
-  },
-
-  separator: {
-    height: 8,
   },
 });
