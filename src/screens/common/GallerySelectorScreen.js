@@ -6,6 +6,11 @@ import colors from '../../constants/colors';
 
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 
+const WINDOW_WIDTH = Dimensions.get('window').width;
+const isLargeScreen = WINDOW_WIDTH >= 768;
+const NUM_COLUMNS = isLargeScreen ? 6 : 4;
+const IMAGE_WIDTH = (WINDOW_WIDTH - NUM_COLUMNS * 2 + 2) / NUM_COLUMNS;
+
 const GallerySelectorScreen = ({ route, navigation }) => {
   const [allowMultiple] = useState(route.params?.allowMultiple ?? true);
   const [photos, setPhotos] = useState([]);
@@ -109,7 +114,7 @@ const GallerySelectorScreen = ({ route, navigation }) => {
     <SafeAreaView style={styles.container}>
       <FlatList
         style={styles.contentContainer}
-        numColumns={3}
+        numColumns={NUM_COLUMNS}
         data={photos}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
@@ -121,8 +126,6 @@ const GallerySelectorScreen = ({ route, navigation }) => {
 
 export default GallerySelectorScreen;
 
-const IMAGE_WIDTH = (Dimensions.get('window').width + 2) / 3;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -130,11 +133,9 @@ const styles = StyleSheet.create({
   contentContainer: {
     margin: -1,
     flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
   },
   galleryItem: {
-    padding: 1,
+    margin: 1,
     width: IMAGE_WIDTH,
     height: IMAGE_WIDTH,
   },
