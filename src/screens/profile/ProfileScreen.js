@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect } from 'react';
-import { StyleSheet, SafeAreaView, View, Image, Text } from 'react-native';
+import { Dimensions, StyleSheet, SafeAreaView, View, Image, Text } from 'react-native';
 import { AppContext } from '../../contexts/AppContext';
 import { BaseButton, KeyValueList } from '../../components';
 import { useUser } from '../../hooks';
@@ -53,6 +53,9 @@ const ProfileScreen = ({ navigation }) => {
 
 export default ProfileScreen;
 
+const WINDOW_WIDTH = Dimensions.get('window').width;
+const isLargeScreen = WINDOW_WIDTH >= 768;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -61,10 +64,13 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     backgroundColor: '#f2f2f2',
   },
 
   userContainer: {
+    width: '100%',
     height: 200,
     backgroundColor: '#fddc3e',
     flexDirection: 'column',
@@ -85,16 +91,16 @@ const styles = StyleSheet.create({
   },
 
   featureContainer: {
-    marginTop: 16,
-    marginHorizontal: 16,
+    flex: 0,
+    width: isLargeScreen ? WINDOW_WIDTH / 2 : WINDOW_WIDTH - 32,
+    marginTop: 32,
     borderRadius: 8,
     backgroundColor: '#fff',
-    flexDirection: 'column',
   },
 
   logoutButton: {
+    width: isLargeScreen ? WINDOW_WIDTH / 2 : WINDOW_WIDTH - 32,
     marginVertical: 32,
-    marginHorizontal: 16,
     borderRadius: 8,
   },
   logoutButtonText: {

@@ -14,6 +14,7 @@ const KeyValueList = (props) => {
 
   return (
     <FlatList
+      contentContainerStyle={styles.contentContainer}
       data={data}
       keyExtractor={keyExtractor}
       renderItem={renderItem}
@@ -25,6 +26,7 @@ const KeyValueList = (props) => {
 export default KeyValueList;
 
 const styles = StyleSheet.create({
+  contentContainer: {},
   separator: {
     marginLeft: 15,
     height: StyleSheet.hairlineWidth,
