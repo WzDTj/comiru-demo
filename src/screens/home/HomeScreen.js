@@ -1,14 +1,12 @@
 import React, { useLayoutEffect, useState, useEffect, useCallback } from 'react';
-import { Dimensions, StyleSheet, SafeAreaView, View, FlatList } from 'react-native';
+import { StyleSheet, SafeAreaView, View, FlatList } from 'react-native';
 import { useRequest } from '../../hooks';
 import { TimeClock } from '../../components';
 import { NewsItem } from './components';
 import colors from '../../constants/colors';
 import apis from '../../constants/apis';
+import { WINDOW_WIDTH, IS_LARGE_SCREEN } from '../../constants/device';
 import { fakeNews } from '../../mocks/fakeData';
-
-const WINDOW_WIDTH = Dimensions.get('window').width;
-const isLargeScreen = WINDOW_WIDTH >= 768;
 
 const HomeScreen = ({ navigation }) => {
   useLayoutEffect(() => navigation.setOptions({ title: 'News' }), [navigation]);
@@ -69,7 +67,7 @@ const HomeScreen = ({ navigation }) => {
           onRefresh={onRefresh}
           onEndReached={onEndReached}
           onEndReachedThreshold={0.5}
-          numColumns={isLargeScreen ? 2 : 1}
+          numColumns={IS_LARGE_SCREEN ? 2 : 1}
         />
       </View>
     </SafeAreaView>
@@ -106,7 +104,7 @@ const styles = StyleSheet.create({
   },
   newsItemContainer: {
     margin: 8,
-    width: isLargeScreen ? (WINDOW_WIDTH - 48) / 2 : WINDOW_WIDTH - 32,
+    width: IS_LARGE_SCREEN ? (WINDOW_WIDTH - 48) / 2 : WINDOW_WIDTH - 32,
   },
 
   listFooter: {

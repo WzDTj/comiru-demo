@@ -1,14 +1,13 @@
 import React, { useLayoutEffect, useEffect, useState, useCallback } from 'react';
-import { StyleSheet, Dimensions, SafeAreaView, FlatList, Text, Alert, TouchableOpacity, LogBox } from 'react-native';
+import { StyleSheet, SafeAreaView, FlatList, Text, Alert, TouchableOpacity, LogBox } from 'react-native';
 import { GalleryItem } from './components';
 import * as MediaLibrary from 'expo-media-library';
+import { WINDOW_WIDTH, IS_LARGE_SCREEN } from '../../constants/device';
 import colors from '../../constants/colors';
 
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 
-const WINDOW_WIDTH = Dimensions.get('window').width;
-const isLargeScreen = WINDOW_WIDTH >= 768;
-const NUM_COLUMNS = isLargeScreen ? 6 : 4;
+const NUM_COLUMNS = IS_LARGE_SCREEN ? 6 : 4;
 const IMAGE_WIDTH = (WINDOW_WIDTH - NUM_COLUMNS * 2 + 2) / NUM_COLUMNS;
 
 const GallerySelectorScreen = ({ route, navigation }) => {

@@ -1,6 +1,7 @@
 import React, { useLayoutEffect } from 'react';
-import { Dimensions, StyleSheet, SafeAreaView, View, Image, Linking, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Image, Linking, Text, TouchableOpacity } from 'react-native';
 import { KeyValueList } from '../../components';
+import { WINDOW_WIDTH, IS_LARGE_SCREEN } from '../../constants/device';
 import colors from '../../constants/colors';
 import { useUser } from '../../hooks';
 
@@ -63,9 +64,7 @@ const UserInfoScreen = ({ navigation }) => {
 
 export default UserInfoScreen;
 
-const WINDOW_WIDTH = Dimensions.get('window').width;
-const isLargeScreen = WINDOW_WIDTH >= 768;
-const CONTENT_CONTAINER_WIDTH = isLargeScreen ? WINDOW_WIDTH / 2 : WINDOW_WIDTH - 32;
+const CONTENT_CONTAINER_WIDTH = IS_LARGE_SCREEN ? WINDOW_WIDTH / 2 : WINDOW_WIDTH - 32;
 
 const styles = StyleSheet.create({
   container: {

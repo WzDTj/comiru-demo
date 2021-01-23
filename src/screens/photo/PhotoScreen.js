@@ -1,12 +1,11 @@
 import React, { useLayoutEffect, useEffect, useState } from 'react';
-import { Dimensions, FlatList, StyleSheet, SafeAreaView, View, Image, TouchableOpacity } from 'react-native';
+import { FlatList, StyleSheet, SafeAreaView, View, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { WINDOW_WIDTH, IS_LARGE_SCREEN } from '../../constants/device';
 import colors from '../../constants/colors';
 
-const WINDOW_WIDTH = Dimensions.get('window').width;
-const isLargeScreen = WINDOW_WIDTH >= 768;
-const NUM_COLUMNS = isLargeScreen ? 6 : 4;
+const NUM_COLUMNS = IS_LARGE_SCREEN ? 6 : 4;
 const IMAGE_WIDTH = (WINDOW_WIDTH - NUM_COLUMNS * 2 + 2) / NUM_COLUMNS;
 
 const PhotoScreen = ({ route, navigation }) => {

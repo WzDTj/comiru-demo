@@ -1,9 +1,10 @@
 import React, { useMemo, useState, useContext, useLayoutEffect } from 'react';
-import { Dimensions, StyleSheet, SafeAreaView, View, Image, TextInput, StatusBar } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Image, TextInput, StatusBar } from 'react-native';
 import { BaseButton } from '../../components';
 import { AppContext } from '../../contexts/AppContext';
 import { useRequest } from '../../hooks';
 import { logo } from '../../assets';
+import { WINDOW_WIDTH, IS_LARGE_SCREEN } from '../../constants/device';
 import apis from '../../constants/apis';
 import colors from '../../constants/colors';
 
@@ -101,9 +102,6 @@ const LoginScreen = ({ navigation }) => {
 
 export default LoginScreen;
 
-const WINDOW_WIDTH = Dimensions.get('window').width;
-const isLargeScreen = WINDOW_WIDTH >= 768;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -111,7 +109,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contentContainer: {
-    width: isLargeScreen ? WINDOW_WIDTH / 2 : WINDOW_WIDTH - 96,
+    width: IS_LARGE_SCREEN ? WINDOW_WIDTH / 2 : WINDOW_WIDTH - 96,
     paddingTop: '33.33%',
   },
 

@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useLayoutEffect } from 'react';
-import { Dimensions, StyleSheet, SafeAreaView, View, Image, Text } from 'react-native';
+import { StyleSheet, SafeAreaView, View, Image, Text } from 'react-native';
 import { AppContext } from '../../contexts/AppContext';
 import { BaseButton, KeyValueList } from '../../components';
 import { useUser } from '../../hooks';
+import { WINDOW_WIDTH, IS_LARGE_SCREEN } from '../../constants/device';
 import colors from '../../constants/colors';
 
 const ProfileScreen = ({ navigation }) => {
@@ -53,8 +54,7 @@ const ProfileScreen = ({ navigation }) => {
 
 export default ProfileScreen;
 
-const WINDOW_WIDTH = Dimensions.get('window').width;
-const isLargeScreen = WINDOW_WIDTH >= 768;
+const FEATURE_CONTAINER_WIDTH = IS_LARGE_SCREEN ? WINDOW_WIDTH / 2 : WINDOW_WIDTH - 32;
 
 const styles = StyleSheet.create({
   container: {
@@ -92,14 +92,14 @@ const styles = StyleSheet.create({
 
   featureContainer: {
     flex: 0,
-    width: isLargeScreen ? WINDOW_WIDTH / 2 : WINDOW_WIDTH - 32,
+    width: FEATURE_CONTAINER_WIDTH,
     marginTop: 32,
     borderRadius: 8,
     backgroundColor: '#fff',
   },
 
   logoutButton: {
-    width: isLargeScreen ? WINDOW_WIDTH / 2 : WINDOW_WIDTH - 32,
+    width: FEATURE_CONTAINER_WIDTH,
     marginVertical: 32,
     borderRadius: 8,
   },
