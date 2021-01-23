@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useContext, useLayoutEffect } from 'react';
-import { StyleSheet, SafeAreaView, View, Image, TextInput, StatusBar } from 'react-native';
+import { Dimensions, StyleSheet, SafeAreaView, View, Image, TextInput, StatusBar } from 'react-native';
 import { BaseButton } from '../../components';
 import { AppContext } from '../../contexts/AppContext';
 import { useRequest } from '../../hooks';
@@ -99,16 +99,20 @@ const LoginScreen = ({ navigation }) => {
   );
 };
 
+export default LoginScreen;
+
+const WINDOW_WIDTH = Dimensions.get('window').width;
+const isLargeScreen = WINDOW_WIDTH >= 768;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    alignItems: 'center',
   },
   contentContainer: {
+    width: isLargeScreen ? WINDOW_WIDTH / 2 : WINDOW_WIDTH - 96,
     paddingTop: '33.33%',
-    paddingHorizontal: 48,
-    flexDirection: 'column',
-    justifyContent: 'center',
   },
 
   logoContainer: {
@@ -149,5 +153,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-export default LoginScreen;
